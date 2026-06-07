@@ -1,0 +1,12 @@
+stages:
+  - test
+
+precision_alignment_defense:
+  stage: test
+  image: python:3.10  # 也可以直接指定你们实验室服务器配置好的 Docker 基础环境
+  before_script:
+    - pip install numpy torch paddlepaddle==2.5.2 dgl pgl --user
+  script:
+    - echo "========== 启动代码合并自动白盒精度防御性门禁 =========="
+    - python ultimate_test.py
+  allow_failure: false  # 💡 强力防御：只要未来有人改代码导致 MaxDiff 敢越过 1e-4 验收线，CI 立刻拉响红牌报错，拦截代码合并！
